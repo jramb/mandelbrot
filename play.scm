@@ -1,5 +1,5 @@
 #!/usr/bin/gsi-script -:d0
-!#
+;;!#
 
 ;; compile:
 ;; gsc -link play.scm && gcc -L$GAMBIT_DIR/lib -I$GAMBIT_DIR/include play.c play_.c -lgambc -lm -ldl -lutil -o play
