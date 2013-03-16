@@ -1,19 +1,10 @@
 (ns mandelbrot)
 
-(defn real-part [c]
-  (get c 0))
-
-(defn imag-part [c]
-  (get c 1))
-
 ;; Mandelbrot set
 
 ;; check if c is still in the set (|c| <= 2)
-;; is this version faster
-(defn unbound? [c]
-  (let [r (real-part c)
-        i (imag-part c)]
-    (> (+ (* r r) (* i i)) 4)))
+(defn unbound? [[r i]]
+  (> (+ (* r r) (* i i)) 4))
 
 ;; (x + yi)(u + vi) = (xu – yv) + (xv + yu)i.
 (defn cplx-mul [[x y] [u v]]
@@ -23,8 +14,6 @@
 (defn cplx-add [[r1 i1] [r2 i2]]
   [(+ r1 r2) (+ i1 i2)])
 
-(defn make-rectangular [r i]
-  [r i])
 
 ;; test the depth of a complex point (Mandelbrot set)
 ;; 
@@ -47,9 +36,9 @@
        (println
         (apply str
              (for [x xs]
-               (let [c (make-rectangular x y)]
+               (let [c [x y]]
                  (if (> (mandel-test c max) 0) "-" "*"))
                )))))))
 
-(time (mandel 70 30 10000))
+(time (mandelbrot/mandel 140 50 10000))
 
