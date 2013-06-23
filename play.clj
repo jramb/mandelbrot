@@ -3,7 +3,7 @@
 
 ;; Mandelbrot set
 
-;; check if c is still in the set (|c| <= 2)
+;; check if c is outside the set (|c| > 2)
 (defn unbound? [[^Double r ^Double i]]
   (> (+ (* r r) (* i i)) 4))
 
@@ -15,16 +15,20 @@
 (defn cplx-add [[^Double r1 ^Double i1] [^Double r2 ^Double i2]]
   [(+ r1 r2) (+ i1 i2)])
 
+;; z^2 + c, slightly faster than (cplx-add (cplx-mul z z) c)
+(defn iter [[^Double zr ^Double zi] [^Double cr ^Double ci]]
+  [(+ (* zr zr) (- (* zi zi)) cr)
+   (+ (* zr zi 2.0) ci)])
 
 ;; test the depth of a complex point (Mandelbrot set)
 ;; 
 (defn mandel-test [c max]
-  (loop [zi c
+  (loop [zi [0.0 0.0] ;; c
          i 1]
     (cond
      (> i max) 0
      (unbound? zi) i
-     :else (recur (cplx-add (cplx-mul zi zi) c) (+ i 1)))))
+     :else (recur (iter zi c) #_(cplx-add (cplx-mul zi zi) c) (inc i)))))
 
 ;;(mandel-test [0.5 0.5] 1000) ;-> 5
 
@@ -37,7 +41,7 @@
        (println
         (apply str
              (for [x xs]
-               (let [c [x y]]
+               (let [c [^Double x ^Double y]]
                  (if (> (mandel-test c max) 0) "-" "*"))
                )))))))
 
