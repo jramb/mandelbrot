@@ -1,17 +1,18 @@
 (ns mandelbrot)
+(set! *warn-on-reflection* true)
 
 ;; Mandelbrot set
 
 ;; check if c is still in the set (|c| <= 2)
-(defn unbound? [[r i]]
+(defn unbound? [[^Double r ^Double i]]
   (> (+ (* r r) (* i i)) 4))
 
 ;; (x + yi)(u + vi) = (xu – yv) + (xv + yu)i.
-(defn cplx-mul [[x y] [u v]]
+(defn cplx-mul [[^Double x ^Double y] [^Double u ^Double v]]
   [(- (* x u) (* y v)) (+ (* x v) (* y u))])
 ;;(cplx-mul [3 4] [-2 9]) ;-> [-42 19]
 
-(defn cplx-add [[r1 i1] [r2 i2]]
+(defn cplx-add [[^Double r1 ^Double i1] [^Double r2 ^Double i2]]
   [(+ r1 r2) (+ i1 i2)])
 
 

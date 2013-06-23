@@ -1,5 +1,5 @@
 -- This very impressive Haskell program by jramb/2013-03-14 (pi-day)
--- Compile: ghc -o playmandel playmandel.hs
+-- Compile: ghc -o playmandel playmandel.hs -O2
 --          time ./playmandel 140 50 10000
 -- Profile: ghc -prof -auto-all -o playmandel playmandel.hs
 --          time ./playmandel 140 50 10000 +RTS -p
@@ -8,7 +8,7 @@ import System.Environment -- (getArgs)
 type Complex = (Double,Double)
 
 complexMul :: Complex -> Complex -> Complex
-complexMul (r1,i1) (r2, i2)
+complexMul (r1,i1) (r2,i2)
            = (r1*r2-i1*i2,i1*r2+r1*i2)
 
 complexSqr :: Complex -> Complex
