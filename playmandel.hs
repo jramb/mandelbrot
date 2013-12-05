@@ -18,8 +18,8 @@ complexSqr (r,i) = (r*r-i*i,2*i*r) --faster(?) but boring
 complexAdd :: Complex -> Complex -> Complex
 complexAdd (r1,i1) (r2,i2) = (r1+r2,i1+i2)
 
---largerThan2 :: Complex -> Bool
---largerThan2 (r,i) = (r*r + i*i)>4
+largerThan2 :: Complex -> Bool
+largerThan2 (r,i) = (r*r + i*i)>4
 
 -- Pc : z |-> z^2 + c
 mandelseq :: Complex -> Complex -> [Complex]

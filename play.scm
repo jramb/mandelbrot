@@ -1,10 +1,14 @@
-#!/usr/bin/gsi-script -:d0
-;;!#
+;;;# !/usr/bin/env gosh
 
 ;; compile:
 ;; gsc -link play.scm && gcc -L$GAMBIT_DIR/lib -I$GAMBIT_DIR/include play.c play_.c -lgambc -lm -ldl -lutil -o play
 ;; call with:
 ;; ./play 70 30 10000
+
+;; Tested with Stalin, gauche (gosh), guile, gambit
+;; compiled gambit was as fast as gosh, Stalin beat them all (times 10 faster than gosh)
+;; guile was unbearable slow
+;; The dart version was still a bit faster, suck...
 
 
 (define (dec n)  (- n 1))
@@ -27,7 +31,7 @@
   (rv ls '()))
 
 
-(define (reverse ls)
+(define (reverse2 ls)
   (let rv ((ls ls)
            (acc '()))
     (if (null? ls)
@@ -35,7 +39,7 @@
         (rv (cdr ls) (cons (car ls) acc)))))
 
 
-(define (take n lst)
+'(define (take n lst)
   (let loop ((res '())
              (n n)
              (lst lst))
@@ -50,9 +54,28 @@
 
 (define (nth lst n)
   (car (drop n lst)))
-  
 
 ;; Mandelbrot set
+
+; Stalin does not have complex numbers...
+(define real-part car)
+(define imag-part cdr)
+
+(define c* *)
+(define (c* c1 c2)
+  (let ((r1 (real-part c1))
+        (i1 (imag-part c1))
+        (r2 (real-part c2))
+        (i2 (imag-part c2)))
+    (cons (- (* r1 r2) (* i1 i2))
+          (+ (* i1 r2) (* r1 i2)))))
+
+(define make-rectangular cons)
+
+'(define c+ +)
+(define (c+ c1 c2)
+  (cons (+ (real-part c1) (real-part c2))
+        (+ (imag-part c1) (imag-part c2))))
 
 ;; check if c is still in the set (|c| <= 2)
 ;; is this version faster
@@ -61,19 +84,33 @@
         (i (imag-part c)))
     (> (+ (* r r) (* i i)) 4)))
 
-;; same, slower but more natural?
-(define (unbound2? c)
+;; same, slower (faster in gosh) but more natural?
+'(define (unbound? c)
   (> (magnitude c) 2))
 
 
 ;; test the depth of a complex point (Mandelbrot set)
-;; 
-(define (mandel-test c max)
+'(define (mandel-test c max)
   (let loop ((zi c)
              (i 1))
-      (cond ((> i max) 0)
+      (cond ((> i max) max)
           ((unbound? zi) i)
-          (else (loop (+ (* zi zi) c) (+ i 1))))))
+          (else (loop (c+ (c* zi zi) c) (+ i 1))))))
+
+(define (mandel-test c max)
+  (let ((cx (car c))
+        (cy (cdr c)))
+    (let loop ((zx 0)
+               (zy 0)
+               (i 0))
+      (let ((zx2 (* zx zx))
+            (zy2 (* zy zy)))
+        (if (and (<= i max) (< (+ zx2 zy2) 4))
+          (loop
+            (+ (- zx2 zy2) cx)
+            (+ (* zx zy 2) cy)
+            (+ i 1))
+          i)))))
 
 ;; Perform the whole set
 (define (mandel width height max)
@@ -84,17 +121,27 @@
        (for-each
         (lambda (x)
           (let ((c (make-rectangular x y)))
-            (display (if (> (mandel-test c max) 0) "-" "*"))))
+            (display (if (< (mandel-test c max) max) "-" "*"))
+            ;(display (mandel-test c max))
+            ))
         xs)
        (newline))
      ys)))
 
+'(define (time)
+  (java.lang.System:currentTimeMillis))
 
+;(display (format "Hello, ~a\n" *program-name*))
 ;; for Gambit
-(define (main width height max)
-  (mandel (string->number width)
-          (string->number height)
-          (string->number max)))
+'(define (main args)
+  (let ((width (cadr args))
+        (height (caddr args))
+        (max (cadddr args)))
+    (mandel (string->number width)
+            (string->number height)
+            (string->number max))))
 
-;; (mandel 70 25 100)
+(mandel 120 40 10000)
+;; (mandel 70 30 10000)
 ;; (main "70" "25" "100")
+(newline)

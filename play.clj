@@ -41,7 +41,7 @@
        (println
         (apply str
              (for [x xs]
-               (let [c [^Double x ^Double y]]
+               (let [c [x y]]
                  (if (> (mandel-test c max) 0) "-" "*"))
                )))))))
 
