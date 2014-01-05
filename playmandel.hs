@@ -1,5 +1,5 @@
 -- This very impressive Haskell program by jramb/2013-03-14 (pi-day)
--- Compile: ghc -o playmandel playmandel.hs -O2
+-- Compile: ghc -o playmandel playmandel.hs -O3
 --          time ./playmandel 140 50 10000
 -- Profile: ghc -prof -auto-all -o playmandel playmandel.hs
 --          time ./playmandel 140 50 10000 +RTS -p
@@ -27,8 +27,9 @@ mandelseq c z
           | largerThan2 z = []
           | otherwise = let z' = p c z
                         in z' :  mandelseq c z'
-          where p c z = complexAdd (complexSqr z) c
-                --p' (cr,ci) (zr,zi) = (zr*zr-zi*zi+cr,2*zi*zr+ci) -- THIS is SLOWER!
+          where --p c z = complexSqr z `complexAdd` c
+                p c z = complexMul z z `complexAdd` c
+                --p (cr,ci) (zr,zi) = (zr*zr-zi*zi+cr,2*zi*zr+ci) -- THIS is SLOWER!
                 largerThan2 (r,i) = (r*r + i*i)>4
 
 isMandelGen :: Int -> Complex -> Int

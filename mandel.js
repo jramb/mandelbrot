@@ -3,16 +3,13 @@
   var print, mandelzahl, mandel;
   print = console.log;
   mandelzahl = function(cx, cy, max){
-    var zx, zy, i, tx, ty;
-    zx = 0.0;
-    zy = 0.0;
+    var zx, zy, i, tx;
+    zx = zy = 0.0;
     i = 0;
-    while (i <= max && zx * zx + zy * zy < 4) {
+    while (++i <= max && zx * zx + zy * zy < 4) {
       tx = zx * zx - zy * zy + cx;
-      ty = zx * zy * 2 + cy;
+      zy = zx * zy * 2 + cy;
       zx = tx;
-      zy = ty;
-      i++;
     }
     if (i > max) {
       return -1;
@@ -39,4 +36,5 @@
     return results$;
   };
   mandel(140, 50, 10000);
+  null;
 }).call(this);
