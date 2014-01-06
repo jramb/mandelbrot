@@ -68,7 +68,7 @@ eingabe()
   Hoehe = 2.0;
   Bx = 140;
   By = 50;
-  Tiefe = 10000;
+  Tiefe = 100000;
 }
 
 main()

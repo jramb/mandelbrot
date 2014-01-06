@@ -11,9 +11,8 @@ int mandelzahl(double cx, double cy, int max) {
   while(i<=max && (zx*zx+zy*zy)<4) {
     // z -> z^2 +c
     num tx = zx*zx - zy*zy + cx;
-    num ty = zx*zy*2 + cy;
+    zy = zx*zy*2 + cy;
     zx = tx;
-    zy=ty;
     i++;
   }
   return i>max?-1:i;
@@ -46,8 +45,8 @@ void time(callback exec) {
   print("Execution time: ${(timeEnd-timeStart)/1000.0}");
 }
 
-void main() {
-  List<String> argv = (new io.Options()).arguments;
+void main(List<String> argv) {
+  //List<String> argv = (new io.Options()).arguments;
   List<int> argvi;
   if (argv.length==0) {
     argvi = [140, 50, 10000];

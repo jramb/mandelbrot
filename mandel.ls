@@ -1,14 +1,15 @@
-#
-# Mandelbrot in LiveScript
-#
+/*
+Mandelbrot in LiveScript
+2014 by JRamb
+*/
 
-print=console.log
+print||=console.log
 
 mandelzahl=(cx, cy, max) ->
   #// z -> z^2 + c
   zx=zy=0.0
   i=0
-  while(++i<=max && (zx*zx+zy*zy)<4)
+  while ++i<=max and (zx*zx+zy*zy)<4
     #slower [zx, zy] = [zx*zx - zy*zy + cx, zx*zy*2 + cy]
     tx = zx*zx - zy*zy + cx
     zy = zx*zy*2 + cy
@@ -26,6 +27,6 @@ mandel = (w, h, max) ->
         sb = sb + '*'
     print sb
 
-mandel 140, 50, 10000
+mandel 140, 50, 1e5
 
 null
