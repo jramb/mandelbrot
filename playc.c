@@ -1,6 +1,7 @@
 	/* C-Programm zur Erzeugung von Bildern aus der */
 	/* 	Mandelbrotmenge									*/
 	/*		5/91 von O. Linnemann	*/
+/* minimal changes by jramb */
 /* compiled with: gcc playc.c -O2 -o playc */
 
 #include <math.h>
@@ -21,18 +22,24 @@ erz_bild()
 {
 	int 	x,y,zaehler;
 	REAL	z,zi,c,ci,temp;
+  //no improvement//REAL  z2,zi2;
 
 	putchar('\n');
 	for(y=0;y<By;++y)
 	{
 		for(x=0;x<Bx;++x)
 		{
-			z=0; zi=0; zaehler=0;
+			//z=0; zi=0; zaehler=0;
+			z=c; zi=ci; zaehler=1;
 			c=Realmin + x*Breite/Bx; ci=Imagmin + y*Hoehe/By;
+      //z2=SQUARE(z); zi2=SQUARE(zi);
 			do	{
 				temp=SQUARE(z)-SQUARE(zi)+c;
+				//temp=z2-zi2+c;
 				zi=2*z*zi + ci;
 				z=temp;
+        //z2=SQUARE(z); zi2=SQUARE(zi);
+			 //} while((z2+zi2)<4.0 && ++zaehler<Tiefe);
 			} while((SQUARE(z)+SQUARE(zi))<4 && ++zaehler<Tiefe);
 			if(zaehler==Tiefe)
       { putchar('*'); }

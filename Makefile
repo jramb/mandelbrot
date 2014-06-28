@@ -1,6 +1,19 @@
-all: mandelrs
+all: mandelrs playc playmandel mandel.js
 
 mandelrs: mandelrs.rs
-	rustc -O $^
+
+playc: playc.c
+
+%: %.c
+	gcc $^ -O2 -o $@
+
+playmandel: playmandel.hs
+	ghc $^ -O3 -o $@
+
+%: %.rs
+	rustc $^ -O
+
+%.js: %.ls
+	lsc -c $^
 
 .PHONY: all

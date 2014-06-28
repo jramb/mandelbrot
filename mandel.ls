@@ -7,10 +7,11 @@ else
   print||=console.log
 
 mandelzahl=(cx, cy, max) ->
-  #// z -> z^2 + c
-  zx=zy=0.0
-  i=0
-  while ++i<=max and ( (x2=zx*zx) + (y2=zy*zy) )<4
+  /* z -> z^2 + c */
+  #zx=zy=0.0
+  zx=cx; zy=cy;
+  i=1
+  while ++i<=max and ( (x2=zx*zx) + (y2=zy*zy) ) < 4
     zy = zx*zy*2 + cy
     zx = x2 - y2 + cx
 
