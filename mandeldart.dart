@@ -49,7 +49,7 @@ void main(List<String> argv) {
   //List<String> argv = (new io.Options()).arguments;
   List<int> argvi;
   if (argv.length==0) {
-    argvi = [140, 50, 10000];
+    argvi = [140, 50, 100000];
   } else {
     argvi = argv.map((e) => int.parse(e)).toList();
   }
