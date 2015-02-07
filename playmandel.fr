@@ -7,7 +7,9 @@
 --
 -- TODO Haskell: check out Data.Complex? Spoils the fun, maybe
 -------------------------------------
-import System.Environment -- (getArgs)
+{-import System.Environment -- (getArgs)-}
+module mandel.Main where
+
 
 type Complex = (Double,Double)
 
@@ -51,17 +53,22 @@ concatWithCR x acc = x ++ "\n" ++ acc
 calcMandel :: Int -> Int -> Int -> String
 calcMandel width height mx =
    foldr1 concatWithCR $ --(\x acc -> x++"\n"++acc) $
-           ( map calcRow $ ranger (-1) 1 height )
-           {-[ calcRow x | x <- ranger (-1) 1 height ]-}
+           {-map calcRow $ ranger (-1) 1 height-}
+           [ calcRow x | x <- ranger (-1) 1 height ]
        where calcRow :: Double -> String
              mandelTest c = (isMandelGen mx c) >= mx
-             calcRow y = map (calcCell y) $ ranger (-2) 1 width
+             -- Frege has this: packed :: [Char] -> String
+             calcRow y = packed [ calcCell y x | x <- ranger (-2) 1 width ]
+             {-calcRow y = packed $ map (calcCell y) $ ranger (-2) 1 width-}
              calcCell :: Double -> Double -> Char
              calcCell y x = if mandelTest (x,y) then '*' else '-'
 
+read :: String -> Int
+read s = s.atoi
+
 -- MAIN
-main = do
-     args <- getArgs
+main args = do
+     {-args <- getArgs-}
      let (w:h:mx:_) = args
          w' = read w::Int
          h' = read h::Int

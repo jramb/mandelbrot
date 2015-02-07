@@ -38,5 +38,5 @@
       print(sb);
     }
   };
-  mandel(140, 50, 1e5);
+  mandel(140, 50, 100000);
 }).call(this);
