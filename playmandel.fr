@@ -1,11 +1,5 @@
--- This very impressive Haskell program by jramb/2013-03-14 (pi-day)
--- Compile: ghc -o playmandel playmandel.hs -O3
---          time ./playmandel 140 50 10000
--- rm playmandel.o && ghc -o playmandel playmandel.hs -O2 && time ./playmandel 140 50 10000
--- Profile: ghc -prof -auto-all -o playmandel playmandel.hs
---          time ./playmandel 140 50 10000 +RTS -p
---
--- TODO Haskell: check out Data.Complex? Spoils the fun, maybe
+-- This very impressive Haskell program by jramb
+-- this is the Frege version. Also see Haskell version
 -------------------------------------
 {-import System.Environment -- (getArgs)-}
 module mandel.Main where
