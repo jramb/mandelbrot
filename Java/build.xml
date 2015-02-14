@@ -31,14 +31,14 @@
     <java classpath="${build}/classes" classname="Mandelbrot" fork="true">
       <arg value="140"/>
       <arg value="50"/>
-      <arg value="10000"/>
+      <arg value="100000"/>
     </java>
     <!--<exec executable="bash">-->
       <!--<arg value="-c"/>-->
       <!--<arg value="time java -cp build/classes Mandelbrot 140 50 10000"/>-->
     <!--</exec>-->
     <echo>
-      time java -cp build/classes Mandelbrot 140 50 10000
+      time java -cp build/classes Mandelbrot 140 50 100000
     </echo>
   </target>
 

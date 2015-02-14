@@ -40,9 +40,8 @@ class Mandelbrot {
     int h = Integer.parseInt(args[1]);
     int max = Integer.parseInt(args[2]);
 
-    System.out.println("Mandelbrot");
-    System.out.println(w+" x "+h+", max = "+max);
     mandelbrot(w,h,max);
+    System.out.println(w+" x "+h+", max = "+max);
   }
 
 }
