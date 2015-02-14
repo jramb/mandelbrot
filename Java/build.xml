@@ -1,0 +1,45 @@
+<project>
+  <property name="src" location="src"/>
+  <property name="build" location="build"/>
+  <property name="dest"  location="build"/>
+
+  <target name="init">
+    <tstamp/>
+    <mkdir dir="${build}"/>
+  </target>
+
+  <target name="clean">
+    <delete dir="${build}"/>
+  </target>
+
+  <target name="compile" depends="init">
+    <mkdir dir="${build}/classes"/>
+    <javac includeantruntime="false" srcdir="src" destdir="${build}/classes"/>
+  </target>
+
+  <!--<target name="jar">-->
+    <!--<mkdir dir="build/jar"/>-->
+    <!--<jar destfile="build/jar/HelloWorld.jar" basedir="build/classes">-->
+      <!--<manifest>-->
+        <!--<attribute name="Main-Class" value="oata.HelloWorld"/>-->
+        <!--</manifest>-->
+      <!--</jar>-->
+    <!--</target>-->
+
+  <target name="run" depends="compile">
+    <!--<java jar="build/jar/HelloWorld.jar" fork="true"/>-->
+    <java classpath="${build}/classes" classname="Mandelbrot" fork="true">
+      <arg value="140"/>
+      <arg value="50"/>
+      <arg value="10000"/>
+    </java>
+    <!--<exec executable="bash">-->
+      <!--<arg value="-c"/>-->
+      <!--<arg value="time java -cp build/classes Mandelbrot 140 50 10000"/>-->
+    <!--</exec>-->
+    <echo>
+      time java -cp build/classes Mandelbrot 140 50 10000
+    </echo>
+  </target>
+
+</project>
