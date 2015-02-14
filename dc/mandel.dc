@@ -1,0 +1,20 @@
+#!/usr/bin/dc
+100k
+[+St+Lt]sp # p = plus complex
+[SdScSbSa lalc* dst  lbld*dsu- LaLb+LcLd+*Lt-Lu-]sm # m = complex mult
+355 113/p
+
+
+#a b c d
+#ac-bd, (a+b)(c+d) - ac - bd
+
+
+
+
+
+#    tx = zx*zx - zy*zy + cx
+#    zy = zx*zy*2 + cy
+#    zx = tx
+c
+2 3 4 5 lmxf
+
