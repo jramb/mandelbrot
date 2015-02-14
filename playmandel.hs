@@ -13,6 +13,7 @@
 -------------------------------------
 {-# OPTIONS_GHC -Wall #-}
 import System.Environment -- (getArgs)
+import Data.Char
 
 -- constructor for Complex: r :+ i
 infixr 5 :+
@@ -63,6 +64,11 @@ ranger s e steps =
     [s + fromIntegral x*w | x <- [0,1..pred steps]]
     where w = (e-s)/fromIntegral steps
 
+lengthToChar :: Int -> Int -> Char
+lengthToChar x mx
+  | x == mx = ' '
+  | otherwise = chr $ pred x `mod` 26 + ord 'a'
+
 
 concatWithCR :: String -> String -> String
 concatWithCR x acc = x ++ "\n" ++ acc
@@ -76,7 +82,8 @@ calcMandel width height mx =
              mandelTest c = (lengthMandelChain mx c) >= mx
              calcRow y = map (calcCell y) $ ranger (-2) 1 width
              calcCell :: Float -> Float -> Char
-             calcCell y x = if mandelTest (x :+ y) then '*' else '-'
+             {-calcCell y x = if mandelTest (x :+ y) then '*' else '-'-}
+             calcCell y x = lengthToChar (lengthMandelChain mx (x :+ y)) mx
 
 -- MAIN
 main :: IO ()
