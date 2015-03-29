@@ -3,17 +3,19 @@
  * 2013 jramb
  */
 
-import 'dart:io' as io; // commandline uses "io", web uses "html"
+//import 'dart:io' as io; // commandline uses "io", web uses "html"
 
 int mandelzahl(double cx, double cy, int max) {
-  num zx=0.0, zy=0.0;
+  num zx=0.0, zy=0.0; // this is fastest
   int i=0;
-  while(i<=max && (zx*zx+zy*zy)<4) {
+  /*num zx=cx+0, zy=cy+0; // the +0 makes this faste, why???*/
+  /*int i=1;*/
+  num x2,y2;
+  while(i++<=max && ((x2=zx*zx)+(y2=zy*zy))<4) {
     // z -> z^2 +c
-    num tx = zx*zx - zy*zy + cx;
+    /*num tx = zx*zx - zy*zy + cx;*/
     zy = zx*zy*2 + cy;
-    zx = tx;
-    i++;
+    zx = x2 - y2 + cx;
   }
   return i>max?-1:i;
 }
