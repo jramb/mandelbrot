@@ -5,7 +5,7 @@
 
    <path id="groovy.path">
       <!--<pathelement path="${classpath}"/>-->
-      <pathelement path="/home/jorg/groovy/embeddable/groovy-all-2.4.0.jar"/>
+      <pathelement path="/home/jorg/groovy-2.4.0/embeddable/groovy-all-2.4.0.jar"/>
       <!--<fileset dir="/home/jorg/groovy/lib">-->
         <!--<include name="**/*.jar"/>-->
       <!--</fileset>-->

@@ -62,7 +62,7 @@
 (define imag-part cdr)
 
 (define c* *)
-(define (c* c1 c2)
+'(define (c* c1 c2)
   (let ((r1 (real-part c1))
         (i1 (imag-part c1))
         (r2 (real-part c2))

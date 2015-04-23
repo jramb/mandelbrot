@@ -21,31 +21,44 @@ int depth(double cx, double cy, int max) {
 
 //assert 4 == depth(0.5, 0.5, 100)
 
-char depth2Char(d) { ('a'..'z')[d%26] }
+char depth2Char(int d) { ('a'..'z')[d%26] }
+//char depth2Char(d) { 'x' }
 
-def ranger(start, end, steps) {
-  def s = (end-start) / steps
-  (0..steps-1).collect { start + it*s }
+/*
+ *def ranger(start, end, steps) {
+ *  def s = (end-start) / steps
+ *    (0..steps-1).collect { start + it*s }
+ *}
+ */
+
+def time(body) {
+  def start = System.currentTimeMillis()
+  body();
+  println "Time taken: ${(System.currentTimeMillis() - start)/1000} s"
 }
 
-def mandelbrot(int w = 140, int h = 50, int max = 1000) {
-    //double stepY = 2.0d / h, stepX = 3.0d / w
-    //for (y = -1.0d ; y < 1.0d ; y += stepY) {
-    ranger(-1.0d,1.0d,h).collect{ y ->
-      println ranger(-2.0d,1.0d,w).collect{ x ->
-          def d = depth x,y,max
-          d > max ? ' ' : depth2Char(d)
-        }.join()
-    } 
+void mandel(int w = 140, int h = 50, int max = 1000) {
+  double stepY = 2.0d / h, stepX = 3.0d / w
+  //(-1).step(1, 2.0 / h) { y ->
+  for (double y = -1.0d ; y <= 1.0d ; y += stepY) {
+    def sb = "" // new StringWriter()
+    //(-2).step(1,3.0 / w) { x ->
+    for(double x=-2.0d ; x<= 1.0d ; x+= stepX) {
+        int d = depth x,y,max
+        sb += (d > max ? ' ' : depth2Char(d))
+      }
+    println sb
+  } 
 }
 
-if (args.size()<=3) {
-  //(w,h,max) = args.collect(Integer.&parseInt)
-  //(w,h,max) = args*.asType(int)
-  mandelbrot args*.asType(int)
-} else {
-  mandelbrot()
+time { 
+  if (args.size()>=3) {
+    //(w,h,max) = args.collect(Integer.&parseInt)
+    //(w,h,max) = args*.asType(int)
+    mandel args*.asType(int)
+  } else {
+    mandel ()
+  }
 }
-
 println args
 
