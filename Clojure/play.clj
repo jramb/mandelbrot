@@ -1,4 +1,5 @@
 (ns mandelbrot)
+; Jörg Ramb
 (set! *warn-on-reflection* true)
 
 ;; Mandelbrot set
@@ -35,15 +36,16 @@
 ;; Perform the whole set
 (defn mandel [width height max]
   (let [xs (range -2. 1 (/ 3. width))
-        ys (range -1. 1 (/ 2. height))]
-    (dorun
-     (for [y ys]
-       (println
-        (apply str
-             (for [x xs]
-               (let [c [x y]]
-                 (if (> (mandel-test c max) 0) "-" "*"))
-               )))))))
+        ys (range -1. 1 (/ 2. height))
+        calc-line (fn [y]
+                    (apply str
+                     (for [x xs]
+                       (let [c [x y]]
+                         (if (> (mandel-test c max) 0) "-" "*")))))]
+        (dorun
+          (map println
+            ; here: pmap = parallel version, map would be serial
+           (pmap #(calc-line %) ys)))))
 
-(time (mandelbrot/mandel 140 50 10000))
+(time (mandelbrot/mandel 140 50 1e5))
 
