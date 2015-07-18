@@ -79,7 +79,7 @@ calcMandel width height mx =
            ( map calcRow $ ranger (-1) 1 height )
            {-[ calcRow x | x <- ranger (-1) 1 height ]-}
        where calcRow :: Float -> String
-             mandelTest c = (lengthMandelChain mx c) >= mx
+             --mandelTest c = (lengthMandelChain mx c) >= mx
              calcRow y = map (calcCell y) $ ranger (-2) 1 width
              calcCell :: Float -> Float -> Char
              {-calcCell y x = if mandelTest (x :+ y) then '*' else '-'-}
