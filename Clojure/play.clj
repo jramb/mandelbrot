@@ -1,4 +1,4 @@
-(ns mandelbrot)
+; (ns mandelbrot)
 ; Jörg Ramb
 (set! *warn-on-reflection* true)
 
@@ -22,7 +22,7 @@
    (+ (* zr zi 2.0) ci)])
 
 ;; test the depth of a complex point (Mandelbrot set)
-;; 
+;;
 (defn mandel-test [c max]
   (loop [zi [0.0 0.0] ;; c
          i 1]
@@ -47,5 +47,6 @@
             ; here: pmap = parallel version, map would be serial
            (pmap #(calc-line %) ys)))))
 
-(time (mandelbrot/mandel 140 50 1e5))
+;; (time (mandelbrot/mandel 140 50 1e4))
+(time (mandel 140 50 1e4))
 

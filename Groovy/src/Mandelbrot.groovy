@@ -48,10 +48,10 @@ void mandel(int w = 140, int h = 50, int max = 1000) {
         sb += (d > max ? ' ' : depth2Char(d))
       }
     println sb
-  } 
+  }
 }
 
-time { 
+time {
   if (args.size()>=3) {
     //(w,h,max) = args.collect(Integer.&parseInt)
     //(w,h,max) = args*.asType(int)
