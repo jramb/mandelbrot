@@ -1,7 +1,7 @@
 // Mandel in Rust
 // 2014-06-28 by JRamb
 // compile with
-// rustc -o mandelrs.rs
+// rustc -O mandelrs.rs
 
 use std::os;
 
@@ -15,7 +15,7 @@ type Fl = f32; // f32 is slightly faster than f64
 fn mandelzahl(cx: Fl, cy: Fl, max: uint) -> int {
   let mut zx = cx; // first iteration, normally starts with (0,0)
   let mut zy = cy;
-  let mut i = 1u;
+  let mut i = 1;
 
   let mut x2 = zx * zx;
   let mut y2 = zy * zy;
@@ -50,11 +50,11 @@ fn mandel(w: uint, h: uint, max: uint) {
 fn main() {
   let args = os::args();
   let args = args.as_slice();
-  let mut w = 140u;
-  let mut h = 50u;
+  let mut w = 140;
+  let mut h = 50;
   let mut max = 100000 as uint;
 
-  if args.len()>=4u {
+  if args.len()>=4 {
     w = from_str::<uint>(args[1].as_slice()).unwrap();
     h = from_str::<uint>(args[2].as_slice()).unwrap();
     max = from_str::<uint>(args[3].as_slice()).unwrap();
