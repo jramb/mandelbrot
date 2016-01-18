@@ -12,9 +12,11 @@ import (
   "math/rand"
   "math/cmplx"
 )
+
 var (
   z complex128 = cmplx.Sqrt(-5 + 12i)
 )
+
 func swap(x, y string) (string, string) {
 	return y, x
 }
