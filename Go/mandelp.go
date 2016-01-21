@@ -44,7 +44,9 @@ func mandelzahl(cx float64, cy float64, max int) int {
 	}
 }
 
-func mandelLine(y float64, w int, max int) string {
+//type chan<- string cm
+
+func mandelLine(y float64, w int, max int, c chan<- string) {
 	buffer := make([]byte, w)
 	stepX := 3.0 / float64(w)
 	for x := 0; x < w; x++ {
@@ -55,14 +57,20 @@ func mandelLine(y float64, w int, max int) string {
 			//buffer.WriteRune(' ')
 		}
 	}
-	return string(buffer)
+	c <- string(buffer)
+	//return string(buffer)
 }
 
 func mandel(w int, h int, max int) {
 	stepY := 2.0 / float64(h)
+	c := make([]chan string, h)
 	for y := 0; y < h; y++ {
-		s := mandelLine(-1.0+float64(y)*stepY, w, max)
-		fmt.Println(s)
+		//line :=
+		c[y] = make(chan string)
+		go mandelLine(-1.0+float64(y)*stepY, w, max, c[y])
+	}
+	for y := 0; y < h; y++ {
+		fmt.Println(<-c[y])
 	}
 }
 
