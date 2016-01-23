@@ -14,15 +14,13 @@ import (
 	"math/cmplx"
 )
 
+type fl float64
+
 var (
 	z complex128 = cmplx.Sqrt(-5 + 12i)
 )
 
-func swap(x, y string) (string, string) {
-	return y, x
-}
-
-func mandelzahl(cx float64, cy float64, max int) int {
+func mandelzahl(cx fl, cy fl, max int) int {
 	//var zx, zy, x2, y2 float32
 	//var i int
 	zx := cx
@@ -46,11 +44,11 @@ func mandelzahl(cx float64, cy float64, max int) int {
 
 //type chan<- string cm
 
-func mandelLine(y float64, w int, max int, c chan<- string) {
+func mandelLine(y fl, w int, max int, c chan<- string) {
 	buffer := make([]byte, w)
-	stepX := 3.0 / float64(w)
+	stepX := 3.0 / fl(w)
 	for x := 0; x < w; x++ {
-		if mz := mandelzahl(-2.0+float64(x)*stepX, y, max); mz >= 0 {
+		if mz := mandelzahl(-2.0+fl(x)*stepX, y, max); mz >= 0 {
 			buffer[int(x)] = byte('a' + (mz % 26))
 		} else {
 			buffer[x] = ' '
@@ -62,12 +60,12 @@ func mandelLine(y float64, w int, max int, c chan<- string) {
 }
 
 func mandel(w int, h int, max int) {
-	stepY := 2.0 / float64(h)
+	stepY := 2.0 / fl(h)
 	c := make([]chan string, h)
 	for y := 0; y < h; y++ {
 		//line :=
 		c[y] = make(chan string)
-		go mandelLine(-1.0+float64(y)*stepY, w, max, c[y])
+		go mandelLine(-1.0+fl(y)*stepY, w, max, c[y])
 	}
 	for y := 0; y < h; y++ {
 		fmt.Println(<-c[y])
@@ -75,7 +73,9 @@ func mandel(w int, h int, max int) {
 }
 
 func main() {
-	argv := os.Args[1:4] // without prog (= arg 0)
+	argv := os.Args[1:] // without prog (= arg 0)
+	defaultArgs := []string{"140", "50", "100000"}
+	argv = append(argv, defaultArgs[len(argv):]...)
 	fmt.Println(argv)
 	var argn [3]int
 	for i, v := range argv {
@@ -85,10 +85,10 @@ func main() {
 			fmt.Println(err)
 		}
 	}
-	fmt.Println(argn)
+	//fmt.Println(argn)
 	//w, h, max := argn[0:2]
 	w, h, max := argn[0], argn[1], argn[2]
-	fmt.Println(w, h, max)
+	//fmt.Println(w, h, max)
 
 	//fmt.Println("Hello, world ", rand.Intn(10))
 	fmt.Println(time.Now())
