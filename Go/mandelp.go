@@ -8,6 +8,7 @@ import (
 	//"bytes"
 	"fmt"
 	"os"
+	"runtime"
 	"strconv"
 	"time"
 	//"math/rand"
@@ -74,8 +75,8 @@ func mandel(w int, h int, max int) {
 
 func main() {
 	argv := os.Args[1:] // without prog (= arg 0)
-	defaultArgs := []string{"140", "50", "100000"}
-	argv = append(argv, defaultArgs[len(argv):]...)
+	defaultArgs := []string{"140", "50", "100000"}[len(argv):]
+	argv = append(argv, defaultArgs...)
 	fmt.Println(argv)
 	var argn [3]int
 	for i, v := range argv {
@@ -90,9 +91,11 @@ func main() {
 	w, h, max := argn[0], argn[1], argn[2]
 	//fmt.Println(w, h, max)
 
+	fmt.Printf("NumCPU=%d, GOMAXPROCS=%d, GOARCH=%s, GOOS=%s, Version=%s\n",
+		runtime.NumCPU(), runtime.GOMAXPROCS(0), runtime.GOARCH, runtime.GOOS, runtime.Version())
 	//fmt.Println("Hello, world ", rand.Intn(10))
 	fmt.Println(time.Now())
-	fmt.Printf("%T(%v)\n", z, z)
+	//fmt.Printf("%T(%v)\n", z, z)
 	//mandel(140,50,100000)
 	mandel(w, h, max)
 }
