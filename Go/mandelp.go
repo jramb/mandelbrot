@@ -7,19 +7,22 @@ package main
 import (
 	//"bytes"
 	"fmt"
+	//"log"
 	"os"
 	"runtime"
 	"strconv"
-	"time"
+	//"time"
 	//"math/rand"
-	"math/cmplx"
+	//"math/cmplx"
 )
 
 type fl float64
 
-var (
-	z complex128 = cmplx.Sqrt(-5 + 12i)
-)
+/*
+ *var (
+ *  z complex128 = cmplx.Sqrt(-5 + 12i)
+ *)
+ */
 
 func mandelzahl(cx fl, cy fl, max int) int {
 	//var zx, zy, x2, y2 float32
@@ -94,7 +97,9 @@ func main() {
 	fmt.Printf("NumCPU=%d, GOMAXPROCS=%d, GOARCH=%s, GOOS=%s, Version=%s\n",
 		runtime.NumCPU(), runtime.GOMAXPROCS(0), runtime.GOARCH, runtime.GOOS, runtime.Version())
 	//fmt.Println("Hello, world ", rand.Intn(10))
-	fmt.Println(time.Now())
+	//fmt.Println(time.Now())
+	//fmt.Printf("%T(%v)\n", z, z)
+	//z = z * z
 	//fmt.Printf("%T(%v)\n", z, z)
 	//mandel(140,50,100000)
 	mandel(w, h, max)
