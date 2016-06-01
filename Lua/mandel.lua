@@ -1,76 +1,47 @@
--- not by jramb, not in line with the other mandel programs
-local width = tonumber(arg and arg[1]) or 100
-local height, wscale = width, 2/width
-local m, limit2 = 50, 4.0
+-- Mandel, 2016-06-01 by JRamb
+
+local width = tonumber(arg and arg[1]) or 140
+local height = tonumber(arg and arg[2]) or 50
+local maxd = tonumber(arg and arg[3]) or 10000 -- Chicken! :)
 local write, char = io.write, string.char
 
-local h2 = math.floor(height/2)
-local hm = height - h2*2
-local top_half = {}
+function mandelzahl(cx, cy, max)
+  local zx, zy, i, x2, y2
+  zx = cx
+  zy = cy
+  i = 1
+  x2 = zx * zx
+  y2 = zy * zy
+  while i <= max and x2 + y2 < 4 do
+    i = i+1
+    x2 = zx * zx
+    y2 = zy * zy
+    zy = zx * zy * 2 + cy
+    zx = x2 - y2 + cx
+  end
+  if  i > max then
+    return -1
+  else
+    return i
+  end
+end
 
-for y=0,h2+hm do
-    local Ci = 2*y / height - 1
-    local line = {""}
-    for xb=0,width-1,8 do
-        local bits = 0
-        local xbb = xb+7
-        for x=xb,xbb < width and xbb or width-1 do
-            bits = bits + bits
-            local Zr, Zi, Zrq, Ziq = 0.0, 0.0, 0.0, 0.0
-            local Cr = x * wscale - 1.5
-            local Zri = Zr*Zi
-            for i=1,m/5 do
-                Zr = Zrq - Ziq + Cr
-                Zi = Zri + Zri + Ci
-                Zri = Zr*Zi
-
-                Zr = Zr*Zr - Zi*Zi + Cr
-                Zi = 2*Zri +         Ci
-                Zri = Zr*Zi
-
-                Zr = Zr*Zr - Zi*Zi + Cr
-                Zi = 2*Zri +         Ci
-                Zri = Zr*Zi
-
-                Zr = Zr*Zr - Zi*Zi + Cr
-                Zi = 2*Zri +         Ci
-                Zri = Zr*Zi
-
-                Zr = Zr*Zr - Zi*Zi + Cr
-                Zi = 2*Zri +         Ci
-                Zri = Zr*Zi
-
-                Zrq = Zr*Zr
-                Ziq = Zi*Zi
-                Zri = Zr*Zi
-                if Zrq + Ziq > limit2 then
-                    bits = bits + 1
-                    break
-                    end
-                -- if i == 1 then
-                --    local ar,ai       = 1-4*Zr,-4*Zi
-                --    local a_r         = math.sqrt(ar*ar+ai*ai)
-                --    local k           = math.sqrt(2)/2
-                --    local br,bi2      = math.sqrt(a_r+ar)*k,(a_r-ar)/2
-                --    if (br+1)*(br+1) + bi2 < 1 then
-                --        break
-                --        end
-                --    end
-                end
-            end
-        for x=width,xbb do 
-            bits = bits + bits + 1 
-            end
-        table.insert(line,char(255-bits))
+function mandel(w,h,max)
+    local stepY, sb, x, stepX, x, mz
+    for  y = -1.0, 1.0, 2.0 / h do
+      local line = {}
+      for x = -2.0, 1.0,  3.0 / w do
+        mz = mandelzahl(x, y, max)
+        if mz<0 then
+          table.insert(line, " ")
+        else
+          table.insert(line, char(string.byte('a') + (mz % 26)))
         end
-    line = table.concat(line) 
-    table.insert(top_half,line)
+        --table.insert(line, mz>0 and '-' or '*')
+      end
+      print(table.concat(line))
     end
+end
 
-write("P4\n", width, " ", height, "\n")
-for y=1,h2+hm do
-    write(top_half[y])
-    end
-for y=h2,1,-1 do
-    write(top_half[y])
-   end
+mandel(width,height,maxd)
+
