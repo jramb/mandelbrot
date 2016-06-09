@@ -7,38 +7,27 @@ local write, char = io.write, string.char
 
 function mandelzahl(cx, cy, max)
   local zx, zy, i, x2, y2
-  zx = cx
-  zy = cy
+  zx, zy = cx, cy
   i = 1
-  x2 = zx * zx
-  y2 = zy * zy
+  x2, y2 = zx * zx, zy * zy
   while i <= max and x2 + y2 < 4 do
     i = i+1
-    x2 = zx * zx
-    y2 = zy * zy
-    zy = zx * zy * 2 + cy
-    zx = x2 - y2 + cx
+    zy, zx = zx * zy * 2 + cy , x2 - y2 + cx
+    x2, y2 = zx * zx, zy * zy
   end
-  if  i > max then
-    return -1
-  else
-    return i
-  end
+  return i>max and -1 or i
 end
 
 function mandel(w,h,max)
-    local stepY, sb, x, stepX, x, mz
+    local x, x
     for  y = -1.0, 1.0, 2.0 / h do
       local line = {}
       for x = -2.0, 1.0,  3.0 / w do
-        mz = mandelzahl(x, y, max)
-        if mz<0 then
-          table.insert(line, " ")
-        else
-          table.insert(line, char(string.byte('a') + (mz % 26)))
-        end
-        --table.insert(line, mz>0 and '-' or '*')
+        local mz = mandelzahl(x, y, max)
+        --write( mz<0 and ' ' or char(string.byte('a') + (mz % 26)))
+        table.insert(line, mz<0 and ' ' or char(string.byte('a') + (mz % 26)))
       end
+      --print()
       print(table.concat(line))
     end
 end
