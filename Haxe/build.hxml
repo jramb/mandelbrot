@@ -1,0 +1,4 @@
+# Simple build file
+
+-main Mandel
+-neko mandel.n
