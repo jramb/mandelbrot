@@ -1,2 +1,16 @@
 */build
 *~
+Scheme/play
+Scheme/play-*
+Nim/nimcache/
+Nim/mandel
+Lua/luac.out
+C/playc
+*.hi
+*.o
+*.bak
+*.class
+*.exe
+*.sublime-*
+play
+
