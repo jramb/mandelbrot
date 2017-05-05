@@ -1,4 +1,4 @@
-;#lang racket
+#lang racket
 ;;(module mandelbundle)
 
 ;;;# !/usr/bin/env gosh
@@ -158,4 +158,4 @@
 ;; (main "70" "25" "100")
 (newline)
 
-(exit)
+;(exit)

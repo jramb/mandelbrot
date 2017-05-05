@@ -1,6 +1,8 @@
 ; (ns mandelbrot)
 ; Jörg Ramb
 (set! *warn-on-reflection* true)
+;(set! *unchecked-math* true)
+(set! *unchecked-math* :warn-on-boxed)
 
 ;; Mandelbrot set
 
@@ -29,7 +31,7 @@
     (cond
      (> i max) 0
      (unbound? zi) i
-     :else (recur (iter zi c) #_(cplx-add (cplx-mul zi zi) c) (inc i)))))
+     :else (recur (iter zi c) (inc i)))))
 
 ;;(mandel-test [0.5 0.5] 1000) ;-> 5
 
