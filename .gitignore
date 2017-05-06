@@ -13,4 +13,5 @@ C/playc
 *.exe
 *.sublime-*
 play
+.*
 

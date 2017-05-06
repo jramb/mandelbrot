@@ -1,8 +1,10 @@
-; (ns mandelbrot)
+(ns mandel.play
+  (:gen-class))
+
 ; Jörg Ramb
 (set! *warn-on-reflection* true)
 ;(set! *unchecked-math* true)
-(set! *unchecked-math* :warn-on-boxed)
+;(set! *unchecked-math* :warn-on-boxed)
 
 ;; Mandelbrot set
 
@@ -43,12 +45,18 @@
                     (apply str
                      (for [x xs]
                        (let [c [x y]]
-                         (if (> (mandel-test c max) 0) "-" "*")))))]
+                         (if (> (mandel-test c max) 0) "." "*")))))]
         (dorun
           (map println
             ; here: pmap = parallel version, map would be serial
            (pmap #(calc-line %) ys)))))
 
-;; (time (mandelbrot/mandel 140 50 1e4))
-(time (mandel 140 50 1e4))
+(defn -main [& args]
+  (time (mandel 140 50 1000)))
+
+(comment
+
+  (time (mandel 140 50 1e4))
+
+  )
 
