@@ -2,6 +2,7 @@
 ! 2017 by J Ramb
 USING: kernel math math.functions math.ranges sequences
     math.complex prettyprint strings io locals
+    concurrency.combinators
     combinators formatting generalizations ;
 IN: mandel
 
@@ -19,6 +20,7 @@ IN: mandel
 
 ! absq is the square of the abs (of a complex)
 : unbound ( c -- ? ) absq 4 > ;
+! : unbound ( c -- ? ) >rect 2dup [ 2 > ] bi@ or -rot [ -2 < ] bi@ or or ;
 
 ! tail-recursive helper
 :: mz ( c max i z -- n )
@@ -37,11 +39,12 @@ IN: mandel
         [ dupd swap rect> max mandelzahl >char ] map
         >string print
         drop ! old y
-    ] each
+    ] each ! parallel-map ?
+    ! print ! [ print ] map
     ;
 
 ! MAIN:
-140 50 10000 mandel
+140 50 1e4 mandel
 
 ! 2.77 s on Intel i7-930 @ 2.8 GHz (4 core)
 

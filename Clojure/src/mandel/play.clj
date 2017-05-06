@@ -12,6 +12,9 @@
 (defn unbound? [[^Double r ^Double i]]
   (> (+ (* r r) (* i i)) 4))
 
+;(defn unbound? [[^Double r ^Double i]]
+  ;(or (> r 2) (< r -2) (> i 2) (< i -2)))
+
 ;; (x + yi)(u + vi) = (xu – yv) + (xv + yu)i.
 (defn cplx-mul [[^Double x ^Double y] [^Double u ^Double v]]
   [(- (* x u) (* y v)) (+ (* x v) (* y u))])
@@ -37,6 +40,11 @@
 
 ;;(mandel-test [0.5 0.5] 1000) ;-> 5
 
+(defn >char [n]
+  (if (> n 0)
+    (char (+ (int \a) (mod n 26)))
+    " "))
+
 ;; Perform the whole set
 (defn mandel [width height max]
   (let [xs (range -2. 1 (/ 3. width))
@@ -44,19 +52,18 @@
         calc-line (fn [y]
                     (apply str
                      (for [x xs]
-                       (let [c [x y]]
-                         (if (> (mandel-test c max) 0) "." "*")))))]
+                       (>char (mandel-test [x y] max)))))]
         (dorun
           (map println
             ; here: pmap = parallel version, map would be serial
-           (pmap #(calc-line %) ys)))))
+           (map #(calc-line %) ys)))))
 
 (defn -main [& args]
-  (time (mandel 140 50 1000)))
+  (time (mandel 140 50 1e4))
+  (System/exit 0))
 
 (comment
 
   (time (mandel 140 50 1e4))
-
   )
 

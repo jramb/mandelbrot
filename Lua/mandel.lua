@@ -2,7 +2,7 @@
 
 local width = tonumber(arg and arg[1]) or 140
 local height = tonumber(arg and arg[2]) or 50
-local maxd = tonumber(arg and arg[3]) or 10000 -- Chicken! :)
+local maxd = tonumber(arg and arg[3]) or 100000 -- Chicken! :)
 
 function mandelzahl(cx, cy, max)
   local zx, zy, x2, y2 = 0, 0, 0, 0
