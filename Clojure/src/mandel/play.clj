@@ -9,22 +9,23 @@
 ;; Mandelbrot set
 
 ;; check if c is outside the set (|c| > 2)
-(defn unbound? [[^float r ^float i]]
+(defn unbound? [[^double r ^double i]]
   (> (+ (* r r) (* i i)) 4.))
 
-;(defn unbound? [[^float r ^float i]]
+; this is an incorrect check, which distorts the colors
+;(defn unbound? [[^double r ^double i]]
   ;(or (> r 2) (< r -2) (> i 2) (< i -2)))
 
 ;; (x + yi)(u + vi) = (xu – yv) + (xv + yu)i.
-(defn cplx-mul [[^float x ^float y] [^float u ^float v]]
+(defn cplx-mul [[^double x ^double y] [^double u ^double v]]
   [(- (* x u) (* y v)) (+ (* x v) (* y u))])
 ;;(cplx-mul [3 4] [-2 9]) ;-> [-42 19]
 
-(defn cplx-add [[^float r1 ^float i1] [^float r2 ^float i2]]
+(defn cplx-add [[^double r1 ^double i1] [^double r2 ^double i2]]
   [(+ r1 r2) (+ i1 i2)])
 
 ;; z^2 + c, slightly faster than (cplx-add (cplx-mul z z) c)
-(defn iter [[^float zr ^float zi] [^float cr ^float ci]]
+(defn iter [[^double zr ^double zi] [^double cr ^double ci]]
   [(+ (* zr zr) (- (* zi zi)) cr)
    (+ (* zr zi 2.0) ci)])
 
