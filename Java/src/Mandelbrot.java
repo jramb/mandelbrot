@@ -2,9 +2,30 @@
 // package none
 
 class Mandelbrot {
-
-  private static int depth(Double cx, Double cy, int max) {
-    Double zx, zy, x2, y2;
+  /*
+ private static final int depth(double cx, double cy, int max)
+  {
+    double zx = 0.0D;
+    double zy = 0.0D;
+    int i = -1;
+    double x2 = 0.0D;
+    double y2 = 0.0D;
+    for (;;)
+    {
+      i++;
+      if ((i > max) || (x2 + y2 >= 4)) {
+        break;
+      }
+      zy = zx * zy * 2.0D + cy;
+      zx = x2 - y2 + cx;
+      x2 = zx * zx;
+      y2 = zy * zy;
+    }
+    return i;
+  }
+  */
+  private static final int depth(double cx, Double cy, int max) {
+    double zx, zy, x2, y2;
     int i = -1;
     zx = cx;
     zy = cy;
@@ -15,17 +36,16 @@ class Mandelbrot {
     return i;
   }
 
-  private static char depth2Char(int d) {
+  private static final char depth2Char(int d) {
     return (char) (((int)'a') + (d % 26));
   }
 
-  private static void mandelbrot(int w, int h, int max) {
-    Double x,y;
-    Double stepX = 3.0/w;
-    Double stepY = 2.0/h;
+  private static final void mandelbrot(int w, int h, int max) {
+    double x,y;
+    double stepX = 3.0/w;
+    double stepY = 2.0/h;
 
-    // yeah, negative y is up, but who will spot that??
-    for(y=-1.0; y<1.0; y += stepY) {
+    for(y=1.0; y>=-1.0; y -= stepY) {
       for(x=-2.0; x<1.0; x+= stepX) {
         int d = depth(x,y,max);
         //System.out.print(d>max? '*' : '-');
