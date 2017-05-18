@@ -24,7 +24,7 @@
 (defn cplx-add [[^double r1 ^double i1] [^double r2 ^double i2]]
   [(+ r1 r2) (+ i1 i2)])
 
-;; z^2 + c, slightly faster than (cplx-add (cplx-mul z z) c)
+;; z*z + c, slightly faster than (cplx-add (cplx-mul z z) c)
 (defn iter [[^double zr ^double zi] [^double cr ^double ci]]
   [(+ (* zr zr) (- (* zi zi)) cr)
    (+ (* zr zi 2.0) ci)])
