@@ -41,9 +41,9 @@ private fun mandelbrot(w:Int = 140, h:Int = 70, max:Int = 100000) {
 }
 
 fun main(args:Array<String>) {
-  val w = args[0]?.toInt()
-  val h = args[1]?.toInt()
-  val max = args[2]?.toInt()
+  val w = args.elementAtOrNull(0)?.toInt() ?: 140
+  val h = args.elementAtOrNull(1)?.toInt() ?: 50
+  val max = args.elementAtOrNull(2)?.toInt() ?: 100000
   mandelbrot(w, h, max)
   println("$w x $h, max = $max")
 }

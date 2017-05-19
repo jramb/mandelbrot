@@ -60,11 +60,12 @@
            (pmap #(calc-line %) ys)))))
 
 (defn -main [& args]
-  (time (mandel 140 50 1e4))
+  (let [[w h max] (map read-string args)]
+    (time (mandel w h max)))
   (System/exit 0))
 
-(comment
 
+(comment
   (time (mandel 140 50 1e4))
   )
 
