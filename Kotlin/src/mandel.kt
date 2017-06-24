@@ -27,13 +27,14 @@ private fun mandelbrot(w: Int = 140, h: Int = 70, max: Int = 100000) {
     // use pmap for parallel execution, map for sequential here:
     (0 until h).pmap {
         val y = 1.0 - it * stepY
-        var b:String =
+        val b:String =
         (0 until w).map {
             val x = -2.0 + it * stepX
             val d = depth(x, y, max)
             if (d > max) ' ' else depth2Char(d) // return of the lambda
         }.joinToString(separator="")
-        Pair(it, b) // to make it sortable for the pmap version, which returns the lines in any order
+        //Pair(it, b) // to make it sortable for the pmap version, which returns the lines in any order
+        it to b // to make it sortable for the pmap version, which returns the lines in any order
     }.sortedBy {it.first}.forEach { println(it.second) }
 }
 
