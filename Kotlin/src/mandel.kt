@@ -34,7 +34,7 @@ private fun mandelbrot(w: Int = 140, h: Int = 70, max: Int = 100000) {
             if (d > max) ' ' else depth2Char(d) // return of the lambda
         }.joinToString(separator="")
         //Pair(it, b) // to make it sortable for the pmap version, which returns the lines in any order
-        it to b // to make it sortable for the pmap version, which returns the lines in any order
+        it to b // Same as Pair(it, b), just showing off!
     }.sortedBy {it.first}.forEach { println(it.second) }
 }
 
