@@ -26,11 +26,16 @@
   };
   mandel = function(w, h, max){
     var stepY, sb, x, stepX, x, mz;
+    var c_char = "a".charCodeAt(0);
     for (y = -1.0, stepY = 2.0 / h; y <= 1.0; y += stepY) {
       sb = "";
       for (x = -2.0, stepX = 3.0 / w; x <= 1.0; x += stepX) {
         mz = mandelzahl(x, y, max);
-        sb += mz > 0 ? '-' : '*';
+        if (mz>0) {
+            sb += String.fromCharCode(c_char + mz%26 - 1);
+        } else {
+            sb += '.';
+        }
       }
       print(sb);
     }
