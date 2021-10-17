@@ -1,26 +1,31 @@
-(local width (or (tonumber (and arg (. arg 1))) 140))
-(local height (or (tonumber (and arg (. arg 2))) 50))
-(local maxd (or (tonumber (and arg (. arg 3))) 100000))
-               (fn mandelzahl [cx cy max]
-                 (let [(zx zy x2 y2) (values 0 0 0 0)]
-                   (var i 0)
-                   (while true
-                     (set-forcibly! (zy zx)
-                                    (values (+ (* (* zx zy) 2) cy)
-                                            (+ (- x2 y2) cx)))
-                     (set-forcibly! (x2 y2) (values (* zx zx) (* zy zy)))
-                     (set i (+ i 1))
-                     (when (or (>= i max) (>= (+ x2 y2) 4))
-                       (lua :break)))
-                   (or (and (< i max) i) (- 1))))
-               (fn mandel [w h max]
-                 (let [(x y) nil]
-                   (for [y -1.0 1.0 (/ 2.0 h)]
-                     (local line {})
-                     (for [x -2.0 1.0 (/ 3.0 w)]
-                       (local mz (mandelzahl x y max))
-                       (tset line (+ (length line) 1)
-                             (or (and (< mz 0) " ")
-                                 (string.char (+ (string.byte :a) (% mz 26))))))
-                     (print (table.concat line)))))
-(mandel width height maxd)
+; 2021-10-17 J Ramb
+
+(fn mandelzahl [cr ci max i tr ti tr2 ti2]
+  "Calculates the Mandelbrot escape number of a complex point c"
+  (if (>= i max)       -1
+      (>= (+ tr2 ti2) 4)  i
+      (let [(tr ti) (values (+ (- tr2 ti2) cr)
+                            (+ (* tr ti 2) ci))]
+        (mandelzahl cr ci max (+ i 1)
+                    tr ti (* tr tr) (* ti ti)))))
+
+(fn mandel [w h max]
+  "Entry point, generate a 'graphical' representation of the Mandelbrot set"
+  (for [y -1.0 1.0 (/ 2.0 h)]
+    (var line {})
+    (for [x -2.0 1.0 (/ 3.0 w)]
+      (let [mz (mandelzahl x y max 0 0 0 0 0)]
+        (tset line (+ (length line) 1)
+              (or (and (< mz 0) " ")
+                  (string.char (+ (string.byte :a) (% mz 26)))))))
+    (print (table.concat line))))
+
+(fn arg-def [nr default]
+  "Little helper to extract command line parameter with defaults" 
+  (or (tonumber (and arg (. arg nr))) default))
+
+(let [width  (arg-def 1 140)
+      height (arg-def 2 50)
+      max    (arg-def 3 1e5)]
+  (mandel width height max))
+
