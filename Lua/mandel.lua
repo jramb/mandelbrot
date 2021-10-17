@@ -4,7 +4,7 @@ local width = tonumber(arg and arg[1]) or 140
 local height = tonumber(arg and arg[2]) or 50
 local maxd = tonumber(arg and arg[3]) or 100000 -- Chicken! :)
 
-function mandelzahl(cx, cy, max)
+local function mandelzahl(cx, cy, max)
   local zx, zy, x2, y2 = 0, 0, 0, 0
   local i = 0
   repeat
@@ -15,8 +15,8 @@ function mandelzahl(cx, cy, max)
   return i<max and i or -1
 end
 
-function mandel(w,h,max)   --{{{
-    local x, x
+local function mandel(w,h,max)   --{{{
+    local x, y
     for  y = -1.0, 1.0, 2.0 / h do
       local line = {}
       for x = -2.0, 1.0,  3.0 / w do
