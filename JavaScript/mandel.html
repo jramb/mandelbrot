@@ -29,8 +29,8 @@
       for (let y = 0; y < h; y++) {
         for (let x = 0; x < w; x++) {
           mz = mandelzahl(projRange(dx, dw, w, x), projRange(dy, dh, h, y), max);
-          if (mz > 0) {            //            ctx.fillStyle = "rgb(" + (128 + mz % 128) + ", 0, 0)";
-            ctx.fillStyle = "hsl(" + (mz % 36) * 10 + " 100% 50%)";
+          if (mz > 0) {
+            ctx.fillStyle = `hsl(${(mz % 36) * 10}deg 100% 50%)`;
             ctx.fillRect(x, y, 1, 1);
           }
         }
