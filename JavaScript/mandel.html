@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script type="application/javascript">
+    /* 2014 by JRamb */
+    let mandelzahl = function (cx, cy, max) {
+      /* z -> z^2 + c */
+      var zx, zy, i, x2, y2;
+      zx = cx;
+      zy = cy;
+      i = 1;
+      while (++i <= max && (x2 = zx * zx) + (y2 = zy * zy) < 4) {
+        zy = zx * zy * 2 + cy;
+        zx = x2 - y2 + cx;
+      }
+      if (i > max) {
+        return -1;
+      } else {
+        return i;
+      }
+    };
+
+    let projRange = (realStart, realWidth, width, point) => (width - point) * realWidth / width + realStart;
+
+    let mandel = function (dw, dh, dx, dy, w, h, max, ctx) {
+      let stepY, sb, stepX, mz;
+      let c_char = "a".charCodeAt(0);
+
+      for (let y = 0; y < h; y++) {
+        for (let x = 0; x < w; x++) {
+          mz = mandelzahl(projRange(dx, dw, w, x), projRange(dy, dh, h, y), max);
+          if (mz > 0) {            //            ctx.fillStyle = "rgb(" + (128 + mz % 128) + ", 0, 0)";
+            ctx.fillStyle = "hsl(" + (mz % 36) * 10 + " 100% 50%)";
+          } else {
+            ctx.fillStyle = "rgb(0, 0, 0)";
+          }
+          ctx.fillRect(x, y, 1, 1);
+        }
+      }
+    };
+
+
+    let draw = (ctx, w, h, dw, dh, dx, dy, depth) => {
+      const params = document.getElementById("params");
+      const stat = document.getElementById("timetaken");
+      const zoom = document.getElementById("zoom");
+      params.innerText = `${w} x ${h}, depth = ${depth}`;
+      zoom.innerText = `width = ${dw}, height = ${dh}`;
+      const start = new Date();
+      mandel(dw, dh, dx, dy, w, h, depth, ctx);
+      const end = new Date();
+      stat.innerText = (end.getTime() - start.getTime()) / 1000;
+    }
+
+    let init = () => {
+      let dw = 3.0;
+      let dh = 2.0;
+      let dx = -2.0;
+      let dy = -1.0;
+      let depth = 1000;
+
+      let canvas = document.getElementById("mandelcanvas"),
+        elemLeft = canvas.offsetLeft + canvas.clientLeft,
+        elemTop = canvas.offsetTop + canvas.clientTop;
+      const w = canvas.width;
+      const h = canvas.height;
+      let ctx = canvas.getContext("2d");
+
+      canvas.addEventListener('click', function (event) {
+        let x = event.pageX - elemLeft, y = event.pageY - elemTop;
+        dx = projRange(dx, dw, w, x) - dw / 4;
+        dy = projRange(dy, dh, h, y) - dh / 4;
+        dw /= 2.0;
+        dh /= 2.0;
+        draw(ctx, w, h, dw, dh, dx, dy, depth);
+      }, false);
+
+      draw(ctx, w, h, dw, dh, dx, dy, depth);
+    }
+
+
+
+  </script>
+
+
+  <style>
+    canvas {
+      border: 1px solid black;
+    }
+  </style>
+
+</head>
+
+<body onload="init();">
+  <h2>Mandelbrot set (Jörg Ramb 2022)</h2>
+  <canvas id="mandelcanvas" width="600" height="400"></canvas>
+  <p>Left-click to zoom in.<br />
+    Parameter: <span id="params"></span><br />
+    Zoom: <span id="zoom"></span><br />
+    Time taken: <span id="timetaken"></span>.
+  </p>
+</body>
+
+
+</html>
