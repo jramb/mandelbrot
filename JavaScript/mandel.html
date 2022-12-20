@@ -4,10 +4,13 @@
 <head>
   <title>Mandelbrot set</title>
   <script type="application/javascript">
-    /* 2014 by JRamb */
+    /* 2014/2022 by JRamb */
     let mandelzahl = function (cx, cy, max) {
       /* z -> z^2 + c */
-      let zx = cx, zy = cy, i=1, x2, y2;
+      let zx = cx,
+        zy = cy,
+        i = 1,
+        x2, y2;
       while (++i <= max && (x2 = zx * zx) + (y2 = zy * zy) < 4) {
         zy = zx * zy * 2 + cy;
         zx = x2 - y2 + cx;
@@ -15,18 +18,18 @@
       return (i > max) ? -1 : i;
     };
 
-    let projRange = (realStart, realWidth, width, point) => realStart + realWidth * point/width;
+    let projRange = (realStart, realWidth, width, point) => realStart + realWidth * point / width;
 
     let mandel = function (dw, dh, dx, dy, w, h, max, ctx) {
       let stepY, sb, stepX, mz;
       ctx.fillStyle = "rgb(0, 0, 0)";
-      ctx.fillRect(0,0,w,h);
+      ctx.fillRect(0, 0, w, h);
 
       for (let y = 0; y < h; y++) {
         for (let x = 0; x < w; x++) {
           mz = mandelzahl(projRange(dx, dw, w, x), projRange(dy, dh, h, y), max);
           if (mz > 0) {
-            ctx.fillStyle = `hsl(${(mz % (360/5)) * 5}deg 100% 50%)`;
+            ctx.fillStyle = `hsl(${(mz % (360 / 5)) * 5}deg 100% 50%)`;
             ctx.fillRect(x, y, 1, 1);
           }
         }
@@ -61,18 +64,21 @@
       let ctx = canvas.getContext("2d");
 
       canvas.addEventListener('click', function (event) {
-        let x = event.pageX - elemLeft, y = event.pageY - elemTop;
+        let x = event.pageX - elemLeft,
+          y = event.pageY - elemTop;
         dx = projRange(dx, dw, w, x) - dw / 4;
         dy = projRange(dy, dh, h, y) - dh / 4;
         dw /= 2.0;
         dh /= 2.0;
-        draw(ctx, w, h, dw, dh, dx, dy, depth);
+        ctx.fillStyle = "rgb(0)";
+        ctx.strokeRect(x - w / 4, y - h / 4, w / 2, h / 2);
+        setTimeout(() => {
+          draw(ctx, w, h, dw, dh, dx, dy, depth)
+        }, 0);
       }, false);
 
       draw(ctx, w, h, dw, dh, dx, dy, depth);
     }
-
-
 
   </script>
 
